@@ -1,5 +1,6 @@
 
-declare class ModuleBase {
+/** 模块基类，需要继承使用 */
+declare class Module {
     constructor(name: string);
     /** 初始化的状态数据 */
     initState: [any] | object | any;
@@ -7,10 +8,29 @@ declare class ModuleBase {
     get store(): object;
     /** 获取本模块的状态数据 */
     get state(): object;
-    /** 提交一个数据改变请求 */
+    /**
+     * 提交一个数据改变请求
+     * @params{Function}: cb - 执行函数
+     */
     commit(cb: (state) => {});
+    /**
+     * 提交一个数据改变请求
+     * @params{Function}: cb1 - 执行函数
+     * @params{Function}: cb2 - 新状态改变后回调
+     */
     commit(cb1: (state) => {}, cb2: (newState) => {});
+    /**
+     * 提交一个数据改变请求
+     * @params{String}: name - 模块名称
+     * @params{Function}: cb - 执行函数
+     */
     commit(name: string, cb: (state) => {});
+    /**
+     * 提交一个数据改变请求
+     * @params{String}: name - 模块名称
+     * @params{Function}: cb1 - 执行函数
+     * @params{Function}: cb2 - 新状态改变后回调
+     */
     commit(name: string, cb1: (state) => {}, cb2: (newState) => {});
     /** 返回对象白名单 */
     only(obj: object, keys: string);
@@ -39,5 +59,3 @@ export function store(initState: any, middlewares: [any]): object;
 export function actions(name: string): object;
 /** 配置项 */
 export function config(options: Opts): any;
-/** 模块基类，需要继承使用 */
-export const Module: ModuleBase;
