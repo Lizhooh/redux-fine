@@ -18,6 +18,8 @@ const gb = {
     config: {},
 };
 
+let tasks = [];
+
 // 创建模块
 const createModule = (name, module) => {
     // 空参数
@@ -28,21 +30,29 @@ const createModule = (name, module) => {
         return gb.modules[name];
     }
     else if (typeof name === 'string' && module) {
-        const m = new module(name);
-        gb.modules[name] = m;
-        gb.initState[name] = m.initState;
-        gb.reducers[name] = (state = gb.initState[name], action) => {
-            const { type, newState } = action;
-            if (type.indexOf(name) > -1 && isFunction(newState)) {
-                return newState(state);
+
+        tasks.push(function () {
+            const m = new module(name);
+            gb.modules[name] = m;
+            gb.initState[name] = m.initState;
+            gb.reducers[name] = (state = gb.initState[name], action) => {
+                const { type, newState } = action;
+                if (type.indexOf(name) > -1 && isFunction(newState)) {
+                    return newState(state);
+                }
+                return state;
             }
-            return state;
-        }
+        });
+
     }
 }
 
 // 创建数据源
 const createStore = (initState, middlewares = [thunk]) => {
+    // task
+    tasks.forEach(task => task());
+    tasks = [];
+
     initState = initState || gb.initState;
     gb.store = Store({
         reducers: gb.reducers,
@@ -149,13 +159,15 @@ class Module {
 
 // 配置项
 function setConfig(options) {
-    options = {
-        devtool: false,
-        middlewares: [],
-        moduleMixin: {},
-        ...options,
-    };
-    gb.config = options;
+    tasks.shift(function () {
+        options = {
+            devtool: false,
+            middlewares: [],
+            moduleMixin: {},
+            ...options,
+        };
+        gb.config = options;
+    });
 }
 
 export default {
