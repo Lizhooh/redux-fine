@@ -1,12 +1,9 @@
 import Fine from 'redux-fine';
-import thunk from 'redux-thunk';
-
 import IndexModule from './module';
 
 // 配置
 Fine.config({
     devtool: true,
-    middlewares: [thunk],
     moduleMixin: { api },   // <-- 注入 mixin
 });
 
