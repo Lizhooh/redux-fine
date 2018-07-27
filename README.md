@@ -2,10 +2,14 @@
 ## Redux-Fine
 基于 Redux 的上层封装，数据状态管理库，主要目的是为了简化 Redux 的编写代码。
 
-__特性：__
-- 上手简单，只有 4 个 API 和一个基类。
-- 一键初始化 Store，避免重复写复杂的初始化代码。
-- 约束与统一的管理 Module。
+__特性与约束：__
+- 不需要写 Reducer，这部分会在框架初始化的时候自动构建。
+- 为了简化代码，Action 的写法将改变，并且可以通过全局的方式引入 actions，非常方便。
+- 使用 ES6 的语法开发。
+- 只适用于逻辑拆分（combineReducers）方式。因为在大多数项目里都会使用逻辑拆分，很少会使用只有一个 reducer 的方式，如果只有一个 reducer，那根本没必要使用 Redux。
+- 逻辑拆分不能嵌套扩展，只能同级垂直扩展，一个逻辑拆分定义为一个 module。
+- 为了方便获取 module，可以使用全局的方式引入，就像 mongoose 一样。
+- 提供一键创建 store 的方式，少写点代码。
 
 ### Install
 直接使用 npm/yarn 安装即可，需要把 Redux 也安装了。
@@ -75,4 +79,3 @@ name 是 module 的名称。返回指定 module 的 action 函数。
     - commit(cb1: (state) => {}, cb2: (newState) => {}); - 第二个回调函数是改变数据状态后触发的，参数是新的状态值。
     - commit(name: string, cb: (state) => {}); - 如果第一个参数为字符串，则是指定某个 module 的数据改变 。
     - commit(name: string, cb1: (state) => {}, cb2: (newState) => {}); - 以上方式的综合函数。
-
