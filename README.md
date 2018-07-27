@@ -70,5 +70,9 @@ name 是 module 的名称。返回指定 module 的 action 函数。
 - store -> any - 全局的 store 浅引用。
 - state -> any - 本模块的 state。
 - commit -> void - 用于提交数据的更改。类似 dispatch，但不需要 type。
-
+    commit 有四种方式：
+    - commit(cb: (state) => {}); - 提交一个数据状态改变，回调函数返回值最为新的状态，只会改变本 module 的 state。
+    - commit(cb1: (state) => {}, cb2: (newState) => {}); - 第二个回调函数是改变数据状态后触发的，参数是新的状态值。
+    - commit(name: string, cb: (state) => {}); - 如果第一个参数为字符串，则是指定某个 module 的数据改变 。
+    - commit(name: string, cb1: (state) => {}, cb2: (newState) => {}); - 以上方式的综合函数。
 
