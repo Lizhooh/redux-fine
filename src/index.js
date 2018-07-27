@@ -41,7 +41,8 @@ const createModule = (name, module) => {
 }
 
 // 创建数据源
-const createStore = (initState, middlewares = [thunk]) => {
+const createStore = (initState, middlewares = []) => {
+    middlewares.push(thunk);
     initState = initState || gb.initState;
     gb.store = Store({
         reducers: gb.reducers,

@@ -32,8 +32,6 @@ declare class Module {
      * @params{Function}: cb2 - 新状态改变后回调
      */
     commit(name: string, cb1: (state) => {}, cb2: (newState) => {});
-    /** 返回对象白名单 */
-    only(obj: object, keys: string);
 }
 
 interface Opts {
