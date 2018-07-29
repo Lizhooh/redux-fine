@@ -30,6 +30,12 @@ import Fine from 'redux-fine';
 class IndexModule extends Fine.Module {
     initState = {}  // 初始数据
 
+    // 非箭头函数，不会被识别为 action
+    index() {
+        // ...
+    }
+
+    // 一个箭头函数就代表着一个 action
     getList = () => {
         // 提交一个数据状态的改变
         this.commit(state => ({ ...state }));

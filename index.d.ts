@@ -1,6 +1,6 @@
 
 /** 模块基类，需要继承使用 */
-declare class Module {
+export class Module {
     constructor(name: string);
     /** 初始化的状态数据 */
     initState: [any] | object | any;
