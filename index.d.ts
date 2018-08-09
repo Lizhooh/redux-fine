@@ -8,6 +8,12 @@ export class Module {
     get store(): object;
     /** 获取本模块的状态数据 */
     get state(): object;
+
+    /** 映射到 store 的 dispatch */
+    dispatch(action: {
+        type: string,
+        [rest]: any
+    }): any;
     /**
      * 提交一个数据改变请求
      * @params{Function}: cb - 执行函数

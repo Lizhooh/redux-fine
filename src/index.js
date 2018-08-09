@@ -86,6 +86,12 @@ class Module {
     get state() {
         return this.store[this._name];
     }
+
+
+    dispatch(...arg) {
+        gb.store.dispatch(...arg);
+        return () => { };
+    }
     /**
      * 提交一个数据改变请求
      * - commit(state => {}, [(newState) => {}])
