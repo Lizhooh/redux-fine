@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import Fine from 'redux-fine';
 import { connect } from 'react-redux';
 
-class IndexView extends Component {
+export default connect(
+    state => ({ state: state.index }),
+    Fine.action('index'),
+)(class extends Component {
     constructor(props) {
         super(props);
         this.text = '';
@@ -37,12 +40,7 @@ class IndexView extends Component {
             </div>
         );
     }
-}
-
-export default connect(
-    state => ({ state: state.index }),
-    Fine.actions('index'),
-)(IndexView);
+});
 
 const styles = {
     title: {
@@ -56,5 +54,3 @@ const styles = {
         color: '#444',
     },
 }
-
-

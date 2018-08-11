@@ -4785,10 +4785,6 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-only@^0.0.2:
-  version "0.0.2"
-  resolved "http://registry.npm.taobao.org/only/download/only-0.0.2.tgz#2afde84d03e50b9a8edc444e30610a70295edfb4"
-
 opn@5.2.0:
   version "5.2.0"
   resolved "http://registry.npm.taobao.org/opn/download/opn-5.2.0.tgz#71fdf934d6827d676cecbea1531f95d354641225"
@@ -5717,11 +5713,10 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-fine@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.npmjs.org/redux-fine/-/redux-fine-1.4.0.tgz#5ad1e1ccd77b3801fb471420cd5a30e05af3886a"
+redux-fine@^1.6.0:
+  version "1.6.0"
+  resolved "http://registry.npm.taobao.org/redux-fine/download/redux-fine-1.6.0.tgz#5f821920342b12f3f4bd2d7a146b1de7202a19b1"
   dependencies:
-    only "^0.0.2"
     redux "^4.0.0"
     redux-store-init "^2.0.0"
     redux-thunk "^2.3.0"

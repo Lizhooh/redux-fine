@@ -1,19 +1,22 @@
 
+interface IApp {
+    action: object,
+    module: object,
+    mixin: object,
+}
+
 /** 模块基类，需要继承使用 */
 export class Module {
     constructor(name: string);
     /** 初始化的状态数据 */
-    initState: [any] | object | any;
+    get initState(): [any] | object | any;
     /** 获取数据源 */
     get store(): object;
     /** 获取本模块的状态数据 */
     get state(): object;
+    /* 获取注入的 mixin */
+    get mixin(): object;
 
-    /** 映射到 store 的 dispatch */
-    dispatch(action: {
-        type: string,
-        [rest]: any
-    }): any;
     /**
      * 提交一个数据改变请求
      * @params{Function}: cb - 执行函数
@@ -38,6 +41,9 @@ export class Module {
      * @params{Function}: cb2 - 新状态改变后回调
      */
     commit(name: string, cb1: (state) => {}, cb2: (newState) => {});
+
+    /* 应用的上下文 */
+    app: IApp;
 }
 
 interface Opts {
