@@ -149,7 +149,7 @@ class Module {
         const action = {};
 
         Object.keys(gb.module).forEach(k => {
-            action[k] = getAction(k);
+            action[k] = _action(k);
         });
 
         return {

@@ -5713,9 +5713,9 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-fine@^1.6.0:
-  version "1.6.0"
-  resolved "http://registry.npm.taobao.org/redux-fine/download/redux-fine-1.6.0.tgz#5f821920342b12f3f4bd2d7a146b1de7202a19b1"
+redux-fine@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/redux-fine/-/redux-fine-2.0.0.tgz#264285422c93c66a34cb57e4e2a3536011e150c5"
   dependencies:
     redux "^4.0.0"
     redux-store-init "^2.0.0"

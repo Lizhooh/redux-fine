@@ -88,7 +88,7 @@ export default class IndexModule extends Fine.Module {
 #### config(option: object): void
 option 对象包括以下几项：
 - devtool -> bool - 默认是 false，true 的时候会检查并开启 redux devtool。
-- moduleMixin -> object - 默认是 {}，一个对象，对象里的属性会注入到 Module 的属性里。
+- middlewares -> Array - redux 中间件。
 
 #### actions(name: string): object
 name 是 module 的名称。返回指定 module 的 action 函数。
