@@ -74,6 +74,8 @@ export default class IndexModule extends Fine.Module {
         this.app.action.user.getList();
         // 获取设置的 mixin
         this.app.mixin.api();
+        // 也可以从示例里获取
+        this.mixin.api();
     }
 }
 ```
@@ -108,6 +110,7 @@ name 是 module 的名称。返回指定 module 的 action 函数。
     - app.module
     - app.action
     - app.mixin
+- `mixin` -> object - 为基类添加的 mixin。默认是 {};
 - `commit` -> void - 用于提交数据的更改。类似 dispatch，但不需要 type。
     commit 有四种方式：
     - commit(cb: (state) => {}); - 提交一个数据状态改变，回调函数返回值最为新的状态，只会改变本 module 的 state。
