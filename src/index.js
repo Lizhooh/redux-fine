@@ -9,6 +9,12 @@ function isString(obj) {
     return typeof obj === 'string';
 }
 
+const ErrorMap = {
+    CTX: 'Redux-Fine: 请不要在 constructor 或 commit callback 里使用 this.store、this.state、this.app',
+    INT: 'Redux-Fine: 你需要先调用 store 才可以',
+    TYPE: 'Redux-Fine: 参数类型错误',
+};
+
 const gb = {
     module: {},
     reducer: {},
@@ -50,6 +56,14 @@ const _store = (initState, middlewares = []) => {
         initState,
         devtool: gb.config.devtool,
     }, middlewares.concat(gb.config.middlewares));
+
+    Object.keys(gb.module).forEach(key => {
+        const initialized = gb.module[key].initialized;
+        if (isFunction(initialized)) {
+            initialized();
+        }
+    });
+
     return gb.store;
 }
 
@@ -72,15 +86,15 @@ class Module {
         this.initState = {};
     }
 
+    initialized() { }
+
     get mixin() {
         return gb.mixin;
     }
 
     get store() {
         try { return gb.store.getState(); }
-        catch (err) {
-            console.error('Redux-Fine: 请不要在 constructor 或 commit callback 里使用 this.store、this.state、this.app');
-        }
+        catch (err) { console.error(ErrorMap.CTX) }
     }
     get state() {
         return this.store[this._name];
@@ -97,7 +111,7 @@ class Module {
         let res = null;
 
         if (Object.keys(gb.store).length === 0) {
-            return console.error('Redux-Fine: 你需要先调用 store 才可以');
+            return console.error(ErrorMap.INT);
         }
         // (cb: function)
         if (arg.length === 1 && isFunction(arg[0])) {
@@ -122,7 +136,7 @@ class Module {
                 });
                 setTimeout(() => {
                     arg[1](gb.store.getState());
-                }, 16);
+                }, 50);
             }
         }
         else if (arg.length === 3 && isFunction(arg[1])) {
@@ -134,11 +148,11 @@ class Module {
             if (isFunction(arg[2])) {
                 setTimeout(() => {
                     arg[2](gb.store.getState());
-                }, 16);
+                }, 50);
             }
         }
         else {
-            console.error('Redux-Fine: 参数类型错误');
+            console.error(ErrorMap.TYPE);
         }
 
         return () => res;

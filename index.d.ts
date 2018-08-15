@@ -18,6 +18,11 @@ export class Module {
     get mixin(): object;
 
     /**
+     * 在 Module 构建完成后自动调用，此时可以获取 this.app
+     */
+    initialized(): void;
+
+    /**
      * 提交一个数据改变请求
      * @params{Function}: cb - 执行函数
      */
