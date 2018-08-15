@@ -46,7 +46,7 @@ Fine.module('user', UserModule);
 export default Fine.store();
 ```
 
-在 IndexModule 里，被定义为一个 combineReducers 模块。
+在 IndexModule 里，被定义为一个逻辑拆分后的模块。
 
 ```js
 // module/index.js
@@ -92,14 +92,17 @@ option 对象包括以下几项：
 - devtool -> bool - 默认是 false，true 的时候会检查并开启 redux devtool。
 - middlewares -> Array - redux 中间件。
 
-#### actions(name: string): object
+#### action(name: string): object
 name 是 module 的名称。返回指定 module 的 action 函数。
 
-#### modules(name: string, module?: object): object | void
+#### module(name: string, module?: object): object | void
 如果只有一个 name 参数，则尝试获取 module 对象。如果有两个参数则是注册一个模块。
 
 #### store(initState?: object, middlewares?: [any] = []): object
 返回一个 createStroe 返回的 store。
+
+#### mixin(key, val): void
+为 Module 实例添加内置的返回或属性，最后会添加到 this.mixin 上。
 
 #### Module
 这是一个基类，你需要继承它实现自己的 module。 Module 有以下属性与方法。
