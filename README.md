@@ -105,7 +105,7 @@ name 是 module 的名称。返回指定 module 的 action 函数。
 #### module(name: string, module?: object): object | void
 如果只有一个 name 参数，则尝试获取 module 对象。如果有两个参数则是注册一个模块。
 
-#### store(initState?: object, middlewares?: [any] = []): object
+#### store(initState?: object): object
 返回一个 createStroe 返回的 store。
 
 #### mixin(key, val): void
@@ -123,7 +123,7 @@ name 是 module 的名称。返回指定 module 的 action 函数。
     - app.module
     - app.action
     - app.mixin
-- `mixin` -> object - 为基类添加的 mixin。默认是 {};
+- `helper` -> object - 为基类添加的 helper。默认是 {};
 - `commit` -> void - 用于提交数据的更改。类似 dispatch，但不需要 type。
     commit 有四种方式：
     - commit(cb: (state) => {}); - 提交一个数据状态改变，回调函数返回值最为新的状态，只会改变本 module 的 state。
