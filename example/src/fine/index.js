@@ -1,5 +1,5 @@
 import Fine from 'redux-fine';
-import merge from 'lodash.merge';
+import assign from 'lodash.assign';
 
 import IndexModule from './module';
 import UserModule from './module/user';
@@ -8,7 +8,7 @@ import UserModule from './module/user';
 Fine.config({ devtool: true });
 
 // 扩展功能
-Fine.mixin('merge', (a, b) => merge({ ...a }, b));
+Fine.mixin('assign', (...arg) => ({ ...assign(...arg) }));
 
 // 注册模块
 Fine.module('index', IndexModule);

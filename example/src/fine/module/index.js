@@ -9,9 +9,7 @@ export default class IndexModule extends Fine.Module {
 
     // action
     addItem = text => {
-        console.log(this.state);
-
-        this.commit(state => this.merge(state, {
+        this.commit(state => this.assign(state, {
             list: [...state.list, {
                 id: Math.random().toString(32).slice(2),
                 text: text,
@@ -21,7 +19,7 @@ export default class IndexModule extends Fine.Module {
 
     // action
     removeItem = id => {
-        this.commit(state => this.merge(state, {
+        this.commit(state => this.assign(state, {
             list: state.list.filter(i => i.id !== id),
         }));
     }

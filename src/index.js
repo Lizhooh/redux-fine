@@ -79,7 +79,7 @@ const _action = (name) => {
         if (isFunction(gb.module[name][key]) && key[0] !== '_') {
             obj[key] = (...arg) => {
                 if (isFunction(gb.module[name][key])) {
-                    gb.module[name][key].call(gb.module[name], arg);
+                    gb.module[name][key].apply(gb.module[name], arg);
                 }
                 return _ => _;
             };
