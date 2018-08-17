@@ -16,9 +16,7 @@ export default connect(
 
         return (
             <div>
-                <p style={styles.title}>
-                    To Do List
-                </p>
+                <p style={styles.title}>To Do List</p>
 
                 <div style={styles.center}>
                     <input

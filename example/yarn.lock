@@ -4236,6 +4236,10 @@ lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "http://registry.npm.taobao.org/lodash.memoize/download/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
 
+lodash.merge@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
+
 lodash.template@^4.4.0:
   version "4.4.0"
   resolved "http://registry.npm.taobao.org/lodash.template/download/lodash.template-4.4.0.tgz#e73a0385c8355591746e020b99679c690e68fba0"
@@ -5713,9 +5717,9 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-fine@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/redux-fine/-/redux-fine-2.0.2.tgz#fc26f04719a5f0f541ea083311d2e790a3f02822"
+redux-fine@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/redux-fine/-/redux-fine-2.1.0.tgz#66de2708949e32b6229a263a04386c9579fab490"
   dependencies:
     redux "^4.0.0"
     redux-store-init "^2.0.0"

@@ -1,4 +1,4 @@
-import Fine from 'redux-fine';
+import Fine from '../../fine';
 
 export default class IndexModule extends Fine.Module {
 
@@ -9,19 +9,21 @@ export default class IndexModule extends Fine.Module {
 
     // action
     addItem = text => {
-        this.app.module.user.say();
+        console.log(this.state);
 
-        return this.commit(state => ({
-            ...state, list: [...state.list, {
+        this.commit(state => this.merge(state, {
+            list: [...state.list, {
                 id: Math.random().toString(32).slice(2),
                 text: text,
             }],
-        }))
+        }));
     }
 
     // action
-    removeItem = id => this.commit(state => ({
-        ...state, list: state.list.filter(i => i.id !== id),
-    }))
+    removeItem = id => {
+        this.commit(state => this.merge(state, {
+            list: state.list.filter(i => i.id !== id),
+        }));
+    }
 
 }

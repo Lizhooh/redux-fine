@@ -52,14 +52,14 @@ const _module = (name, module) => {
 const _store = (initState, middlewares = []) => {
     _config({}); // 初始创建一次
 
-    middlewares.push(thunk);
+    middlewares = [...gb.config.middlewares, thunk];
     initState = initState || gb.initState;
 
     gb.store = Store({
         reducers: gb.reducer,
         initState,
         devtool: gb.config.devtool,
-    }, middlewares.concat(gb.config.middlewares));
+    }, middlewares);
 
     Object.keys(gb.module).forEach(key => {
         const initialized = gb.module[key].initialized;
@@ -77,7 +77,10 @@ const _action = (name) => {
     const list = Object.keys(gb.module[name] || {}) || [];
     list.forEach(key => {
         if (isFunction(gb.module[name][key]) && key[0] !== '_') {
-            obj[key] = gb.module[name][key];
+            obj[key] = (...arg) => {
+                gb.module[name][key](...arg);
+                return _ => _;
+            };
         }
     });
     return obj;
@@ -101,10 +104,6 @@ class Module {
     }
 
     initialized() { }
-
-    // get mixin() {
-    //     return gb.mixin;
-    // }
 
     get helper() {
         return gb.helper;
@@ -154,7 +153,7 @@ class Module {
                 });
                 setTimeout(() => {
                     arg[1](gb.store.getState());
-                }, 50);
+                }, 20);
             }
         }
         else if (arg.length === 3 && isFunction(arg[1])) {
@@ -166,14 +165,14 @@ class Module {
             if (isFunction(arg[2])) {
                 setTimeout(() => {
                     arg[2](gb.store.getState());
-                }, 50);
+                }, 20);
             }
         }
         else {
             console.error(ErrorMap.TYPE);
         }
 
-        return () => res;
+        return res;
     }
 
     // 全局的上下文

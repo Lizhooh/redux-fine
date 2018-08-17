@@ -1,21 +1,19 @@
-import Fine from 'redux-fine';
+import Fine from '../fine';
+import merge from 'lodash.merge';
+
 import IndexModule from './module';
 import UserModule from './module/user';
 
-function api() {
-    return new Promise(rs => setTimeout(rs, Math.random() * 2000 | 0));
-}
-
 // 配置
-Fine.config({ devtool: true  });
+Fine.config({ devtool: true, middlewares: [] });
 
 // 扩展功能
-Fine.mixin('api', api);
+Fine.mixin('merge', (a, b) => merge({ ...a }, b));
 
 // 注册模块
 Fine.module('index', IndexModule);
 Fine.module('user', UserModule);
 
-
 // 返回创建后的 store
 export default Fine.store();
+
