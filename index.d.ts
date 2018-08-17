@@ -15,7 +15,7 @@ export class Module {
     /** 获取本模块的状态数据 */
     get state(): object;
     /* 获取注入的 mixin */
-    get mixin(): object;
+    get helper(): object;
 
     /**
      * 在 Module 构建完成后自动调用，此时可以获取 this.app
@@ -68,7 +68,9 @@ export function module(name: string, module: any): void;
 export function store(initState: any, middlewares: [any]): object;
 /** 返回模块所有的 action 函数 */
 export function action(name: string): object;
-/** 对 Module 添加实例方法 */
+/** 对 Module 注入属性 */
 export function mixin(key: string, value: any): object;
+/** 对 Module 添加辅助实例方法 */
+export function helper(key: string, value: any): object;
 /** 配置项 */
 export function config(options: Opts): any;

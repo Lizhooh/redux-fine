@@ -22,6 +22,7 @@ const gb = {
     store: {},
     config: {},
     mixin: {},
+    helper: {},
 };
 
 // 创建模块
@@ -63,7 +64,7 @@ const _store = (initState, middlewares = []) => {
     Object.keys(gb.module).forEach(key => {
         const initialized = gb.module[key].initialized;
         if (isFunction(initialized)) {
-            initialized();
+            initialized.bind(gb.module[key]);
         }
     });
 
@@ -87,12 +88,26 @@ class Module {
     constructor(name) {
         this._name = name;
         this.initState = {};
+        Object.keys(gb.mixin).forEach(key => {
+            const om = [
+                'mixin', 'store', 'state', 'initState',
+                'initialized', 'commit', 'app', 'helper',
+                'constructor',
+            ];
+            if (om.indexOf(key) === -1) {
+                this[key] = gb.mixin[key];
+            }
+        });
     }
 
     initialized() { }
 
-    get mixin() {
-        return gb.mixin;
+    // get mixin() {
+    //     return gb.mixin;
+    // }
+
+    get helper() {
+        return gb.helper;
     }
 
     get store() {
@@ -191,12 +206,16 @@ function _mixin(name, cb) {
     gb.mixin[name] = cb;
 }
 
+function _helper(name, cb) {
+    gb.helper[name] = cb;
+}
+
 export default {
-    module: _module,
     store: _store,
+    mixin: _mixin,
+    module: _module,
     action: _action,
     config: _config,
-    mixin: _mixin,
-
+    helper: _helper,
     Module: Module,
 };

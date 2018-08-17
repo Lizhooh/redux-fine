@@ -11,6 +11,7 @@ __特性与约束：__
 - 为了方便获取 module，可以使用全局的方式引入，就像 mongoose 一样。
 - 提供一键创建 store 的方式，少写点代码。
 - 能够在运行时获取全局的上下文。
+- 提供 mixin、helper 让你轻松的扩展 Module 的能力。
 
 ### Install
 直接使用 npm/yarn 安装即可，需要把 Redux 也安装了。
@@ -28,10 +29,6 @@ import Fine from 'redux-fine';
 import IndexModule from './module';
 import UserModule from './module/user';
 
-function api() {
-    return new Promise(rs => setTimeout(rs, Math.random() * 2000 | 0));
-}
-
 // 配置
 Fine.config({ devtool: true  });
 
@@ -44,6 +41,11 @@ Fine.module('user', UserModule);
 
 // 返回创建后的 store
 export default Fine.store();
+
+// 在 Provider 里载入 store
+<Provider store={store}>
+    ...
+</Provider>
 ```
 
 在 IndexModule 里，被定义为一个逻辑拆分后的模块。
@@ -60,9 +62,9 @@ export default class IndexModule extends Fine.Module {
     }
 
     getList = () => {
-        // ... 使用 commit 提交数据的变化
+        // ... 使用 commit 提交数据的变化。
         this.commit(state => ({ ... state }));
-        // 使用 this.state 获取当前 module 的数据
+        // 使用 this.state 获取当前 module 的数据。
         this.state;
         // 使用 this.store 获取全局的 store 数据。
         this.store;
@@ -72,15 +74,20 @@ export default class IndexModule extends Fine.Module {
         this.app.module.user.commit();
         // 在 IndexModule 里调用 UserModule 的 action 函数。
         this.app.action.user.getList();
-        // 获取设置的 mixin
+        // 获取设置的 mixin。
         this.app.mixin.api();
-        // 也可以从示例里获取
-        this.mixin.api();
+        // 也可以从示例里获取。
+        this.api();
+        // 从 helper 里获取有用的方法。
+        this.helper.merge();
     }
 }
 ```
 
-> 注意，this.state、this.store、this.app 都不能在构造函数或 commit 回调函数里使用，它们是运行时的属性。
+### 注意事项
+
+- this.state、this.store、this.app 都不能在构造函数或 commit 回调函数里使用，它们是运行时的属性。
+- 在调用 Fine.store() 之前，Fine.config、Fine.module 都有效，调用之后在设置就无效了。
 
 ### Example
 你还可以直接查看 [Example](https://github.com/Lizhooh/redux-fine/tree/master/example) 代码。
@@ -102,7 +109,10 @@ name 是 module 的名称。返回指定 module 的 action 函数。
 返回一个 createStroe 返回的 store。
 
 #### mixin(key, val): void
-为 Module 实例添加内置的返回或属性，最后会添加到 this.mixin 上。
+为 Module 实例添加内置的方法或属性，最后会添加到 this 上。注意固定的同名属性不能覆盖。
+
+#### helper(key, val): void
+为 Module 实例添加内置的方法或属性，最后会添加到 this.helper 上。
 
 #### Module
 这是一个基类，你需要继承它实现自己的 module。 Module 有以下属性与方法。
