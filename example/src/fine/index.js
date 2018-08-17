@@ -1,11 +1,11 @@
-import Fine from '../fine';
+import Fine from 'redux-fine';
 import merge from 'lodash.merge';
 
 import IndexModule from './module';
 import UserModule from './module/user';
 
 // 配置
-Fine.config({ devtool: true, middlewares: [] });
+Fine.config({ devtool: true });
 
 // 扩展功能
 Fine.mixin('merge', (a, b) => merge({ ...a }, b));

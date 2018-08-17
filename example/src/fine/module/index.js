@@ -1,4 +1,4 @@
-import Fine from '../../fine';
+import Fine from 'redux-fine';
 
 export default class IndexModule extends Fine.Module {
 

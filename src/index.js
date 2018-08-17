@@ -78,7 +78,9 @@ const _action = (name) => {
     list.forEach(key => {
         if (isFunction(gb.module[name][key]) && key[0] !== '_') {
             obj[key] = (...arg) => {
-                gb.module[name][key](...arg);
+                if (isFunction(gb.module[name][key])) {
+                    gb.module[name][key].call(gb.module[name], arg);
+                }
                 return _ => _;
             };
         }
