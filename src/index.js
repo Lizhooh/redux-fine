@@ -15,7 +15,7 @@ const ErrorMap = {
     TYPE: 'Redux-Fine: 参数类型错误',
 };
 
-const gb = {
+const $ = {
     module: {},
     reducer: {},
     initState: {},
@@ -29,16 +29,16 @@ const gb = {
 const _module = (name, module) => {
     // 空参数
     if (typeof name === 'undefined') {
-        return Object.keys(gb.module || {}) || [];
+        return Object.keys($.module || {}) || [];
     }
     if (typeof name === 'string' && !module) {
-        return gb.module[name];
+        return $.module[name];
     }
     else if (typeof name === 'string' && module) {
         const m = new module(name);
-        gb.module[name] = m;
-        gb.initState[name] = m.initState;
-        gb.reducer[name] = (state = gb.initState[name], action) => {
+        $.module[name] = m;
+        $.initState[name] = m.initState;
+        $.reducer[name] = (state = $.initState[name], action) => {
             const { type, newState } = action;
             if (type.indexOf(name) > -1 && isFunction(newState)) {
                 return newState(state);
@@ -52,34 +52,34 @@ const _module = (name, module) => {
 const _store = (initState, middlewares = []) => {
     _config({}); // 初始创建一次
 
-    middlewares = [...gb.config.middlewares, thunk];
-    initState = initState || gb.initState;
+    middlewares = [...$.config.middlewares, thunk];
+    initState = initState || $.initState;
 
-    gb.store = Store({
-        reducers: gb.reducer,
+    $.store = Store({
+        reducers: $.reducer,
         initState,
-        devtool: gb.config.devtool,
+        devtool: $.config.devtool,
     }, middlewares);
 
-    Object.keys(gb.module).forEach(key => {
-        const initialized = gb.module[key].initialized;
+    Object.keys($.module).forEach(key => {
+        const initialized = $.module[key].initialized;
         if (isFunction(initialized)) {
-            initialized.bind(gb.module[key]);
+            initialized.bind($.module[key]);
         }
     });
 
-    return gb.store;
+    return $.store;
 }
 
 // 返回 action
 const _action = (name) => {
     const obj = {};
-    const list = Object.keys(gb.module[name] || {}) || [];
+    const list = Object.keys($.module[name] || {}) || [];
     list.forEach(key => {
-        if (isFunction(gb.module[name][key]) && key[0] !== '_') {
+        if (isFunction($.module[name][key]) && key[0] !== '_') {
             obj[key] = (...arg) => {
-                if (isFunction(gb.module[name][key])) {
-                    gb.module[name][key].apply(gb.module[name], arg);
+                if (isFunction($.module[name][key])) {
+                    $.module[name][key].apply($.module[name], arg);
                 }
                 return _ => _;
             };
@@ -93,14 +93,14 @@ class Module {
     constructor(name) {
         this._name = name;
         this.initState = {};
-        Object.keys(gb.mixin).forEach(key => {
+        Object.keys($.mixin).forEach(key => {
             const om = [
                 'mixin', 'store', 'state', 'initState',
                 'initialized', 'commit', 'app', 'helper',
                 'constructor',
             ];
             if (om.indexOf(key) === -1) {
-                this[key] = gb.mixin[key];
+                this[key] = $.mixin[key];
             }
         });
     }
@@ -108,11 +108,11 @@ class Module {
     initialized() { }
 
     get helper() {
-        return gb.helper;
+        return $.helper;
     }
 
     get store() {
-        try { return gb.store.getState(); }
+        try { return $.store.getState(); }
         catch (err) { console.error(ErrorMap.CTX) }
     }
     get state() {
@@ -129,12 +129,12 @@ class Module {
     commit(...arg) {
         let res = null;
 
-        if (Object.keys(gb.store).length === 0) {
+        if (Object.keys($.store).length === 0) {
             return console.error(ErrorMap.INT);
         }
         // (cb: function)
         if (arg.length === 1 && isFunction(arg[0])) {
-            res = gb.store.dispatch({
+            res = $.store.dispatch({
                 type: `${this._name}-${Date.now()}`,
                 newState: state => arg[0](state) || state,
             });
@@ -142,31 +142,31 @@ class Module {
         else if (arg.length === 2 && isFunction(arg[1])) {
             // (name: string, cb: function)
             if (isString(arg[0])) {
-                res = gb.store.dispatch({
+                res = $.store.dispatch({
                     type: `${this._name}-${arg[0]}`,
                     newState: state => arg[1](state) || state,
                 });
             }
             // (cb: function, cb: function)
             else {
-                res = gb.store.dispatch({
+                res = $.store.dispatch({
                     type: `${this._name}-${Date.now()}`,
                     newState: state => arg[0](state) || state,
                 });
                 setTimeout(() => {
-                    arg[1](gb.store.getState());
+                    arg[1]($.store.getState());
                 }, 20);
             }
         }
         else if (arg.length === 3 && isFunction(arg[1])) {
             // (name: string, cb: function, cb: function)
-            res = gb.store.dispatch({
+            res = $.store.dispatch({
                 type: `${this._name}-${arg[0]}`,
                 newState: state => arg[1](state) || state,
             });
             if (isFunction(arg[2])) {
                 setTimeout(() => {
-                    arg[2](gb.store.getState());
+                    arg[2]($.store.getState());
                 }, 20);
             }
         }
@@ -181,13 +181,13 @@ class Module {
     get app() {
         const action = {};
 
-        Object.keys(gb.module).forEach(k => {
+        Object.keys($.module).forEach(k => {
             action[k] = _action(k);
         });
 
         return {
-            module: Object.assign(gb.module, {}),
-            mixin: Object.assign(gb.mixin, {}),
+            module: Object.assign($.module, {}),
+            mixin: Object.assign($.mixin, {}),
             action: action,
         }
     }
@@ -200,15 +200,15 @@ function _config(options) {
         middlewares: [],
         ...options,
     };
-    gb.config = options;
+    $.config = options;
 }
 
 function _mixin(name, cb) {
-    gb.mixin[name] = cb;
+    $.mixin[name] = cb;
 }
 
 function _helper(name, cb) {
-    gb.helper[name] = cb;
+    $.helper[name] = cb;
 }
 
 export default {
