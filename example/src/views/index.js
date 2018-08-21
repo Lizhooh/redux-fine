@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Fine from 'redux-fine';
+import Fine from '../redux/fine';
 import { connect } from 'react-redux';
 
 export default connect(

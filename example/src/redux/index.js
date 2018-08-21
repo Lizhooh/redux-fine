@@ -1,4 +1,4 @@
-import Fine from 'redux-fine';
+import Fine from './fine';
 import assign from 'lodash.assign';
 
 import IndexModule from './module';

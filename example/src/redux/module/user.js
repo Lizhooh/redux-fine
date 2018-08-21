@@ -1,4 +1,4 @@
-import Fine from 'redux-fine';
+import Fine from '../fine';
 
 export default class UserModule extends Fine.Module {
 
