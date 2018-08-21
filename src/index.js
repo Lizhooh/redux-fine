@@ -89,7 +89,7 @@ const _action = (name) => {
 }
 
 // 模块基类
-class Module {
+class _Module {
     constructor(name) {
         this._name = name;
         this.initState = {};
@@ -211,6 +211,14 @@ function _helper(name, cb) {
     $.helper[name] = cb;
 }
 
+export const action = _action;
+export const store = _store;
+export const mixin = _mixin;
+export const module = _module;
+export const config = _config;
+export const helper = _helper;
+export const Module = _Module;
+
 export default {
     store: _store,
     mixin: _mixin,
@@ -218,5 +226,5 @@ export default {
     action: _action,
     config: _config,
     helper: _helper,
-    Module: Module,
+    Module: _Module,
 };
