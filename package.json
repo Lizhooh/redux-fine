@@ -1,6 +1,6 @@
 {
   "name": "redux-fine",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "redux-fine is a simple redux library.",
   "main": "index.js",
   "dependencies": {
