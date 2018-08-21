@@ -16,4 +16,3 @@ Fine.module('user', UserModule);
 
 // 返回创建后的 store
 export default Fine.store();
-
