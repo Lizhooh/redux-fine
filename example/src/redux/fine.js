@@ -74,14 +74,22 @@ const _store = (initState, middlewares = []) => {
 // 返回 action
 const _action = (name) => {
     const obj = {};
-    const list = Object.keys($.module[name] || {}) || [];
+
+    if (Object.keys($.module[name] || {}).length === 0) return;
+
+    const pt = Object.getPrototypeOf($.module[name]);
+    const list = Object.getOwnPropertyNames(pt);
+
     list.forEach(key => {
         if (isFunction($.module[name][key]) && key[0] !== '_') {
+            if (key === 'constructor' || key === 'initialized' ||
+                key === 'initState' ||
+                Object.keys($.mixin).indexOf(key) > -1) return;
             obj[key] = (...arg) => {
                 if (isFunction($.module[name][key])) {
                     $.module[name][key].apply($.module[name], arg);
                 }
-                return _ => _;
+                return () => { };
             };
         }
     });

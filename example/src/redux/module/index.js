@@ -7,8 +7,12 @@ export default class IndexModule extends Fine.Module {
         list: [],
     }
 
+    initialized() {
+
+    }
+
     // action
-    addItem = text => {
+    addItem(text) {
         this.commit(state => this.assign(state, {
             list: [...state.list, {
                 id: Math.random().toString(32).slice(2),
@@ -18,7 +22,7 @@ export default class IndexModule extends Fine.Module {
     }
 
     // action
-    removeItem = id => {
+    removeItem(id) {
         this.commit(state => this.assign(state, {
             list: state.list.filter(i => i.id !== id),
         }));
