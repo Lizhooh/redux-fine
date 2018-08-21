@@ -128,6 +128,16 @@ class _Module {
      */
     commit(...arg) {
         let res = null;
+        const now = (() => {
+            const date = new Date();
+            // h, m, s, ss
+            const fm = n => n < 10 ? '0' + n : n;
+            const h = date.getHours();
+            const m = date.getMinutes();
+            const s = date.getSeconds();
+            const ss = date.getMilliseconds();
+            return `[${fm(h)}:${fm(m)}:${fm(s)}-${ss}]`;
+        })();
 
         if (Object.keys($.store).length === 0) {
             return console.error(ErrorMap.INT);
@@ -135,7 +145,7 @@ class _Module {
         // (cb: function)
         if (arg.length === 1 && isFunction(arg[0])) {
             res = $.store.dispatch({
-                type: `${this._name}-${Date.now()}`,
+                type: `${this._name}-${now}`,
                 newState: state => arg[0](state) || state,
             });
         }
@@ -150,7 +160,7 @@ class _Module {
             // (cb: function, cb: function)
             else {
                 res = $.store.dispatch({
-                    type: `${this._name}-${Date.now()}`,
+                    type: `${this._name}-${now}`,
                     newState: state => arg[0](state) || state,
                 });
                 setTimeout(() => {
@@ -195,12 +205,12 @@ class _Module {
 
 // 配置项
 function _config(options) {
-    options = {
+    $.config = {
         devtool: false,
         middlewares: [],
         ...options,
+        ...$.config,
     };
-    $.config = options;
 }
 
 function _mixin(name, cb) {
