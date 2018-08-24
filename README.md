@@ -6,7 +6,7 @@ Redux-based upper-level encapsulation, data state management library, the main p
 基于 Redux 的上层封装，数据状态管理库，主要目的是为了简化 Redux 的编写代码。
 [中文文档 - 点这里](./ZH.md)
 
-__Features and constraints: __
+#### Features and constraints
 - There is no need to write `Reducer`, this part will be built automatically when the framework is initialized.
 - No need to write `action.type`, everything is built in the process of automatic build.
 - In order to simplify the code, the `Action` method will be changed, and the `actions` can be introduced in a global way, which is very convenient.
