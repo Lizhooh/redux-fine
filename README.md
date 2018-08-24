@@ -1,20 +1,23 @@
 
 ## Redux-Fine
-基于 Redux 的上层封装，数据状态管理库，主要目的是为了简化 Redux 的编写代码。
+Redux-based upper-level encapsulation, data state management library, the main purpose is to simplify the writing of Redux code.
 
-__特性与约束：__
-- 不需要写 Reducer，这部分会在框架初始化的时候自动构建。
-- 为了简化代码，Action 的写法将改变，并且可以通过全局的方式引入 actions，非常方便。
-- 使用 ES6 的语法开发。
-- 只适用于逻辑拆分（combineReducers）方式。因为在大多数项目里都会使用逻辑拆分，很少会使用只有一个 reducer 的方式，如果只有一个 reducer，那根本没必要使用 Redux。
-- 逻辑拆分不能嵌套扩展，只能同级垂直扩展，一个逻辑拆分定义为一个 module。
-- 为了方便获取 module，可以使用全局的方式引入，就像 mongoose 一样。
-- 提供一键创建 store 的方式，少写点代码。
-- 能够在运行时获取全局的上下文。
-- 提供 mixin、helper 让你轻松的扩展 Module 的能力。
+[中文文档 - 点这里](./ZH.md)
+
+**__Features and constraints: __**
+- There is no need to write `Reducer`, this part will be built automatically when the framework is initialized.
+- No need to write `action.type`, everything is built in the process of automatic build.
+- In order to simplify the code, the `Action` method will be changed, and the `actions` can be introduced in a global way, which is very convenient.
+- Developed with the syntax of `ES6`, lightweight, with no additional performance overhead.
+- Only available for logical split (`combineReducers`) mode. Because logical splitting is used in most projects, it's rare to use only one `reducer`. If there is only one `reducer`, then there is no need to use `Redux`.
+- Logical splits cannot be nested extensions, they can only be extended vertically in the same level, and a logical split is defined as a `module`.
+- In order to facilitate the acquisition of `module`, it can be introduced in a global way, and `action` can also be introduced globally.
+- Provide one-click way to create `store`, write less code.
+- Ability to get global context at runtime.
+- Provide `mixin, helper` to let you easily extend the capabilities of `Module`.
 
 ### Install
-直接使用 npm/yarn 安装即可，需要把 Redux 也安装了。
+Install directly using npm/yarn, you need to install Redux as well.
 
 ```bash
 npm install redux
@@ -22,33 +25,34 @@ npm install redux-fine
 ```
 
 ### Usage
-使用分为几步，如果有配置，则需要把配置代码放在前面。之后就是注册 Module，注册完成 Module 之后，调用 store 方法，返回一个 `createStroe` 实例给 `<Provider>`。
+There are a few steps to use, and if you have a configuration, you need to put the configuration code first. Then register the Module. After registering the Module, call the store method and return a `createStroe` instance to `<Provider>`.
 
 ```js
 import Fine from 'redux-fine';
 import IndexModule from './module';
 import UserModule from './module/user';
 
-// 配置
+// config
 Fine.config({ devtool: true  });
 
-// 扩展功能（可选）
+// extended function (optional)
 Fine.mixin('api', api);
+Fine.helper('merge', merge);
 
-// 注册模块
+// registration module
 Fine.module('index', IndexModule);
 Fine.module('user', UserModule);
 
-// 返回创建后的 store
+// return to the created store
 export default Fine.store();
 
-// 在 Provider 里载入 store
+// Load the store in the Provider
 <Provider store={store}>
     ...
 </Provider>
 ```
 
-在 IndexModule 里，被定义为一个逻辑拆分后的模块。
+In IndexModule, it is defined as a logically split module.
 
 ```js
 // module/index.js
@@ -62,71 +66,74 @@ export default class IndexModule extends Fine.Module {
     }
 
     getList = () => {
-        // ... 使用 commit 提交数据的变化。
+        // ... Use commit to commit changes to the data.
         this.commit(state => ({ ... state }));
-        // 使用 this.state 获取当前 module 的数据。
+        // Use this.state to get the data of the current module.
         this.state;
-        // 使用 this.store 获取全局的 store 数据。
+        // Use this.store to get global store data.
         this.store;
-        // 使用 this.app 获取全局的上下文。
+        // Use this.app to get the global context.
         this.app;
-        // 在 IndexModule 里调用 UserModule 的 commit。
+        // Call the commit of the UserModule in the IndexModule.
         this.app.module.user.commit();
-        // 在 IndexModule 里调用 UserModule 的 action 函数。
+        // Call the ActionModle's action function in the IndexModule.
         this.app.action.user.getList();
-        // 获取设置的 mixin。
+        // Get the set mixin.
         this.app.mixin.api();
-        // 也可以从示例里获取。
+        // It can also be obtained from an instance.
         this.api();
-        // 从 helper 里获取有用的方法。
+        // Get useful methods from the helper.
         this.helper.merge();
     }
 }
 ```
 
-### 注意事项
+### Precautions
 
-- this.state、this.store、this.app 都不能在构造函数或 commit 回调函数里使用，它们是运行时的属性。
-- 在调用 Fine.store() 之前，Fine.config、Fine.module 都有效，调用之后在设置就无效了。
+- this.state, this.store, this.app can't be used in constructors or commit callbacks, they are runtime properties.
+- Fine.config, Fine.module are valid until Fine.store() is called, and the setting is invalid after the call.
 
 ### Example
-你还可以直接查看 [Example](https://github.com/Lizhooh/redux-fine/tree/master/example) 代码。
+You can also directly view the [Example](https://github.com/Lizhooh/redux-fine/tree/master/example) code.
 
 ### API
 
 #### config(option: object): void
-option 对象包括以下几项：
-- devtool -> bool - 默认是 false，true 的时候会检查并开启 redux devtool。
-- middlewares -> Array - redux 中间件。
+The option object includes the following items:
+- `devtool -> bool` - The default is false, true will check and open redux devtool.
+- `middlewares -> Array` - redux middleware.
 
 #### action(name: string): object
-name 是 module 的名称。返回指定 module 的 action 函数。
+Name is the name of the module. Returns the action function of the specified module.
 
 #### module(name: string, module?: object): object | void
-如果只有一个 name 参数，则尝试获取 module 对象。如果有两个参数则是注册一个模块。
+If there is only one name parameter, try to get the module object. If there are two parameters, register a module.
 
 #### store(initState?: object): object
-返回一个 createStroe 返回的 store。
+Returns a store returned by createStroe .
 
 #### mixin(key, val): void
-为 Module 实例添加内置的方法或属性，最后会添加到 this 上。注意固定的同名属性不能覆盖。
+Add a built-in method or property to the Module instance and add it to this at the end. Note that fixed properties with the same name cannot be overwritten.
 
 #### helper(key, val): void
-为 Module 实例添加内置的方法或属性，最后会添加到 this.helper 上。
+Add a built-in method or property to the Module instance and add it to this.helper.
 
 #### Module
-这是一个基类，你需要继承它实现自己的 module。 Module 有以下属性与方法。
-- `initState` -> any - 模块的初始数据，默认是 {}
-- `store` -> any - 全局的 store 浅引用。
-- `state` -> any - 本模块的 state。
-- `app` -> object - 全局的上文。
-    - app.module
-    - app.action
-    - app.mixin
-- `helper` -> object - 为基类添加的 helper。默认是 {};
-- `commit` -> void - 用于提交数据的更改。类似 dispatch，但不需要 type。
-    commit 有四种方式：
-    - commit(cb: (state) => {}); - 提交一个数据状态改变，回调函数返回值最为新的状态，只会改变本 module 的 state。
-    - commit(cb1: (state) => {}, cb2: (newState) => {}); - 第二个回调函数是改变数据状态后触发的，参数是新的状态值。
-    - commit(name: string, cb: (state) => {}); - 如果第一个参数为字符串，则是为 action type 提供额外的名称。
-    - commit(name: string, cb1: (state) => {}, cb2: (newState) => {}); - 以上方式的综合函数。
+This is a base class, you need to inherit it to implement your own module. Module has the following properties and methods.
+- `initState -> any` - the initial data of the module, the default is {}.
+- `initialized() -> function` - the lifecycle function, called after the module has been created.
+- `store -> any` - a global store shallow reference.
+- `state -> any` - the state of this module.
+- `app -> object` - global above.
+    - app.module
+    - app.action
+    - app.mixin
+- `helper -> object` - the helper added for the base class. The default is {};
+- `commit -> void` - used to commit data changes. Similar to dispatch, but does not require type.
+    There are four ways to commit:
+    - `commit(cb: (state) => {});` - Submit a data state change, the callback function returns the most recent state, only changes the state of this module.
+    - `commit(cb1: (state) => {}, cb2: (newState) => {});` - The second callback function is triggered after changing the state of the data, the parameter is the new state value.
+    - `commit(name: string, cb: (state) => {});` - If the first argument is a string, it is an additional name for the action type.
+    - `commit(name: string, cb1: (state) => {}, cb2: (newState) => {});` - The general function of the above.
+
+

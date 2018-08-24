@@ -10,9 +10,9 @@ function isString(obj) {
 }
 
 const ErrorMap = {
-    CTX: 'Redux-Fine: 请不要在 constructor 或 commit callback 里使用 this.store、this.state、this.app',
-    INT: 'Redux-Fine: 你需要先调用 store 才可以',
-    TYPE: 'Redux-Fine: 参数类型错误',
+    CTX: 'Redux-Fine: Please do not use this.store, this.state, this.app in constructor or commit callback.',
+    INT: 'Redux-Fine: You need to call store first.',
+    TYPE: 'Redux-Fine: wrong parameter type.',
 };
 
 const om = [
@@ -56,7 +56,7 @@ const _module = (name, module) => {
 
 // 创建数据源
 const _store = (initState, middlewares = []) => {
-    _config({}); // 初始创建一次
+    _config({}); // 至少初始创建一次
 
     middlewares = [...$.config.middlewares, thunk];
     initState = initState || $.initState;
@@ -67,6 +67,7 @@ const _store = (initState, middlewares = []) => {
         devtool: $.config.devtool,
     }, middlewares);
 
+    // 生命周期函数
     Object.keys($.module).forEach(key => {
         const initialized = $.module[key].initialized;
         if (isFunction(initialized)) {
@@ -137,13 +138,13 @@ class _Module {
         let res = null;
         const now = (() => {
             const date = new Date();
-            // h, m, s, ss
+            // h, m, s, ms
             const fm = n => n < 10 ? '0' + n : n;
             const h = date.getHours();
             const m = date.getMinutes();
             const s = date.getSeconds();
             const ss = date.getMilliseconds();
-            return `[${fm(h)}:${fm(m)}:${fm(s)}-${ss}]`;
+            return `[${fm(h)}:${fm(m)}:${fm(s)}.${ss}]`;
         })();
 
         if (Object.keys($.store).length === 0) {
