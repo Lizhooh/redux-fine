@@ -72,7 +72,7 @@ const _store = (initState, middlewares = []) => {
     Object.keys($.module).forEach(key => {
         const initialized = $.module[key].initialized;
         if (isFunction(initialized)) {
-            initialized.bind($.module[key]);
+            initialized.call($.module[key]);
         }
     });
 
@@ -82,12 +82,10 @@ const _store = (initState, middlewares = []) => {
 // 返回 action
 const _action = (name) => {
     const obj = {};
-    const list = Object.keys($.module[name] || {});
+    let list = Object.keys($.module[name] || {});
 
-    if (list.length === 0) return;
-
-    // const pt = Object.getPrototypeOf($.module[name]);
-    // const list = Object.getOwnPropertyNames(pt);
+    const pt = Object.getPrototypeOf($.module[name]);
+    list = list.concat(Object.getOwnPropertyNames(pt));
 
     list.forEach(key => {
         if (isFunction($.module[name][key]) && key[0] !== '_') {
