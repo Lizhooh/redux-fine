@@ -91,7 +91,7 @@ const _action = (name) => {
 
     list.forEach(key => {
         if (isFunction($.module[name][key]) && key[0] !== '_') {
-            if (om.indexOf(om) || Object.keys($.mixin).indexOf(key) > -1) return;
+            if (om.indexOf(om) > -1 || Object.keys($.mixin).indexOf(key) > -1) return;
             obj[key] = (...arg) => {
                 if (isFunction($.module[name][key])) {
                     $.module[name][key].apply($.module[name], arg);
