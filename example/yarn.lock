@@ -5717,9 +5717,9 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-fine@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npmjs.org/redux-fine/-/redux-fine-3.0.4.tgz#c8c22e3718ea86b6d3dc8e85f56c48a599e00472"
+redux-fine@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.npmjs.org/redux-fine/-/redux-fine-3.2.5.tgz#595eab11e9d20fa7fbd2b36af668dd2afba177cc"
   dependencies:
     redux "^4.0.0"
     redux-store-init "^2.0.0"
