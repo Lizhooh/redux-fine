@@ -27,6 +27,7 @@ const $ = {
     initState: {},
     store: {},
     config: {},
+    action: {},
     mixin: {},
     helper: {},
 };
@@ -81,11 +82,12 @@ const _store = (initState, middlewares = []) => {
 // 返回 action
 const _action = (name) => {
     const obj = {};
+    const list = Object.keys($.module[name] || {});
 
-    if (Object.keys($.module[name] || {}).length === 0) return;
+    if (list.length === 0) return;
 
-    const pt = Object.getPrototypeOf($.module[name]);
-    const list = Object.getOwnPropertyNames(pt);
+    // const pt = Object.getPrototypeOf($.module[name]);
+    // const list = Object.getOwnPropertyNames(pt);
 
     list.forEach(key => {
         if (isFunction($.module[name][key]) && key[0] !== '_') {
@@ -98,6 +100,7 @@ const _action = (name) => {
             };
         }
     });
+
     return obj;
 }
 
@@ -245,4 +248,5 @@ export default {
     config: _config,
     helper: _helper,
     Module: _Module,
+    _$: $,
 };
