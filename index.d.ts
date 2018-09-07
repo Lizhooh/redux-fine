@@ -47,6 +47,12 @@ export class Module {
      */
     commit(name: string, cb1: (state) => {}, cb2: (newState) => {});
 
+    /**
+     * 提交一个数据改变请求，参数数据会被合并到 state 里。
+     * @params{Function}: cb - 执行函数
+     */
+    commitAssign(cb: (state) => {});
+
     /* 应用的上下文 */
     app: IApp;
 }

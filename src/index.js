@@ -9,6 +9,17 @@ function isString(obj) {
     return typeof obj === 'string';
 }
 
+const now = () => {
+    const date = new Date();
+    // h, m, s, ms
+    const fm = n => n < 10 ? '0' + n : n;
+    const h = date.getHours();
+    const m = date.getMinutes();
+    const s = date.getSeconds();
+    const ss = date.getMilliseconds();
+    return `[${fm(h)}:${fm(m)}:${fm(s)}.${ss}]`;
+};
+
 const ErrorMap = {
     CTX: 'Redux-Fine: Please do not use this.store, this.state, this.app in constructor or commit callback.',
     INT: 'Redux-Fine: You need to call store first.',
@@ -137,16 +148,7 @@ class _Module {
      */
     commit(...arg) {
         let res = null;
-        const now = (() => {
-            const date = new Date();
-            // h, m, s, ms
-            const fm = n => n < 10 ? '0' + n : n;
-            const h = date.getHours();
-            const m = date.getMinutes();
-            const s = date.getSeconds();
-            const ss = date.getMilliseconds();
-            return `[${fm(h)}:${fm(m)}:${fm(s)}.${ss}]`;
-        })();
+        const _now = now();
 
         if (Object.keys($.store).length === 0) {
             return console.error(ErrorMap.INT);
@@ -194,6 +196,10 @@ class _Module {
         }
 
         return res;
+    }
+
+    commitAssign(obj) {
+        this.commit(state => ({ ...state, ...obj }));
     }
 
     // 全局的上下文
