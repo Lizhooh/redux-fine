@@ -49,9 +49,9 @@ export class Module {
 
     /**
      * 提交一个数据改变请求，参数数据会被合并到 state 里。
-     * @params{Function}: cb - 执行函数
+     * @params{Object}: newState - 新的状态
      */
-    commitAssign(cb: (state) => {});
+    commitAssign(newState);
 
     /* 应用的上下文 */
     app: IApp;

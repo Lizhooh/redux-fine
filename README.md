@@ -137,5 +137,4 @@ This is a base class, you need to inherit it to implement your own module. Modul
     - `commit(cb1: (state) => {}, cb2: (newState) => {});` - The second callback function is triggered after changing the state of the data, the parameter is the new state value.
     - `commit(name: string, cb: (state) => {});` - If the first argument is a string, it is an additional name for the action type.
     - `commit(name: string, cb1: (state) => {}, cb2: (newState) => {});` - The general function of the above.
-
-
+- `commitAssign(newState)` -

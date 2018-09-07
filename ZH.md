@@ -133,4 +133,5 @@ name 是 module 的名称。返回指定 module 的 action 函数。
     - `commit(cb1: (state) => {}, cb2: (newState) => {});` - 第二个回调函数是改变数据状态后触发的，参数是新的状态值。
     - `commit(name: string, cb: (state) => {});` - 如果第一个参数为字符串，则是为 action type 提供额外的名称。
     - `commit(name: string, cb1: (state) => {}, cb2: (newState) => {});` - 以上方式的综合函数。
+- `commitAssign(newState)` -
 
