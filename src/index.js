@@ -198,8 +198,13 @@ class _Module {
         return res;
     }
 
-    commitAssign(obj) {
-        this.commit(state => ({ ...state, ...obj }));
+    commitAssign(obj, cb) {
+        if (cb === undefined) {
+            this.commit(state => ({ ...state, ...obj }));
+        }
+        else if (isFunction(cb)) {
+            this.commit(state => ({ ...state, ...obj }), cb);
+        }
     }
 
     // 全局的上下文
