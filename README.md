@@ -94,6 +94,30 @@ export default class IndexModule extends Fine.Module {
 
 - this.state, this.store, this.app can't be used in constructors or commit callbacks, they are runtime properties.
 - Fine.config, Fine.module are valid until Fine.store() is called, and the setting is invalid after the call.
+- action requires an arrow function form, the function starting with an underscore (_xxx) and the non-arrow function form will be filtered.
+- The action function returns an empty function, so all return items will be invalid.
+
+```js
+class IndexModule extends Fine.Module {
+    getList1() {
+        // 不是 action
+    }
+    _getList2() {
+        // 不是 action
+    }
+    getList3 = () => {
+        // 是 action
+        return true;
+    }
+}
+
+Fine.module('index', IndexModule);
+
+console.log(Fine.action('index'));
+// { getList3: () => {} }
+console.log(Fine.action('index').getList3());
+// () => {}，返回值无效
+```
 
 ### Example
 You can also directly view the [Example](https://github.com/Lizhooh/redux-fine/tree/master/example) code.

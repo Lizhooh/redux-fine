@@ -90,6 +90,30 @@ export default class IndexModule extends Fine.Module {
 
 - this.state、this.store、this.app 都不能在构造函数或 commit 回调函数里使用，它们是运行时的属性。
 - 在调用 Fine.store() 之前，Fine.config、Fine.module 都有效，调用之后在设置就无效了。
+- action 需要箭头函数形式，下划线（_xxx）开头的函数和非箭头函数形式将会过滤。
+- action 函数会返回一个空函数，因此所有的返回项将无效。
+
+```js
+class IndexModule extends Fine.Module {
+    getList1() {
+        // 不是 action
+    }
+    _getList2() {
+        // 不是 action
+    }
+    getList3 = () => {
+        // 是 action
+        return true;
+    }
+}
+
+Fine.module('index', IndexModule);
+
+console.log(Fine.action('index'));
+// { getList3: () => {} }
+console.log(Fine.action('index').getList3());
+// () => {}，返回值无效
+```
 
 ### Example
 你还可以直接查看 [Example](https://github.com/Lizhooh/redux-fine/tree/master/example) 代码。
