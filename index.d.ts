@@ -51,7 +51,8 @@ export class Module {
      * 提交一个数据改变请求，参数数据会被合并到 state 里。
      * @params{Object}: newState - 新的状态
      */
-    commitAssign(newState);
+    commitAssign(updateState);
+    commitAssign(updateState, cb: (staet) => {});
 
     /* 应用的上下文 */
     app: IApp;
@@ -68,15 +69,36 @@ interface Opts {
     middlewares?: [any],
 }
 
-/** 加载模块类 */
+/**
+ * 加载模块类
+ */
 export function module(name: string, module: any): void;
-/** 返回一个创建后的 store 对象 */
+
+/**
+ * 返回一个创建后的 store 对象
+ */
 export function store(initState: any, middlewares: [any]): object;
-/** 返回模块所有的 action 函数 */
+
+/**
+ * 返回模块所有的 action 函数
+ */
 export function action(name: string): object;
-/** 对 Module 注入属性 */
+
+/**
+ * 对 Module 注入属性，会被合并到 this 里
+ */
 export function mixin(key: string, value: any): object;
-/** 对 Module 添加辅助实例方法 */
+
+/**
+ * 对 Module 添加辅助实例方法
+ */
 export function helper(key: string, value: any): object;
-/** 配置项 */
+/**
+ * 配置项
+ */
 export function config(options: Opts): any;
+
+/**
+ * 获取所有的数据对象
+ */
+export const _$: object;
