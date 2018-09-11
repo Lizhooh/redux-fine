@@ -11,11 +11,11 @@ export class Module {
     /** 初始化的状态数据 */
     initState: [any] | object | any;
     /** 获取数据源 */
-    get store(): object | any;
+    readonly store: object | any;
     /** 获取本模块的状态数据 */
-    get state(): object | any;
+    readonly state: object | any;
     /* 获取注入的 mixin */
-    get helper(): object | any;
+    readonly helper: object | any;
 
     /**
      * 在 Module 构建完成后自动调用，此时可以获取 this.app
@@ -57,6 +57,8 @@ export class Module {
     /* 应用的上下文 */
     app: IApp;
 
+    [rest: string]: any;
+    [index: number]: any;
 }
 
 interface Opts {
