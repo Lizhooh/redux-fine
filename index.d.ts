@@ -102,3 +102,24 @@ export function config(options: Opts): any;
  * 获取所有的数据对象
  */
 export const _$: object;
+
+type Fine = {
+    /** 加载模块类 */
+    module,
+    /** 返回一个创建后的 store 对象 */
+    store,
+    /** 返回模块所有的 action 函数 */
+    action,
+    /** 对 Module 注入属性，会被合并到 this 里 */
+    mixin,
+    /** 对 Module 添加辅助实例方法 */
+    helper,
+    /** 配置项 */
+    config,
+    /** 获取所有的数据对象 */
+    _$,
+    /** 模块基类，需要继承使用 */
+    Module,
+}
+
+export default Fine;
