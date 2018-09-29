@@ -1,3 +1,4 @@
+import * as React from 'react';
 
 interface IApp {
     action: object | any,
@@ -59,6 +60,15 @@ export class Module {
 
     [rest: string]: any;
     [index: number]: any;
+
+    /** 生命周期函数绑定 */
+    onDidCatch(err: Error, info: React.ErrorInfo, self?: React.ReactElement<any>);
+    onDidMount(self?: React.ReactElement<any>);
+    onWillMount(self?: React.ReactElement<any>);
+    onWillReceiveProps(nextProps: any, self?: React.ReactElement<any>);
+    onDidUpdate(prevProps: any, prevState: any, self?: React.ReactElement<any>);
+    onWillUpdate(nextProps: any, nextState: any, self?: React.ReactElement<any>);
+    onWillUnmount(self?: React.ReactElement<any>);
 }
 
 interface Opts {
@@ -102,6 +112,11 @@ export function helper(key: string, value: any);
 export function config(options: Opts);
 
 /**
+ * 绑定生命周期函数
+ */
+export function ComponentBind(name: string);
+
+/**
  * 获取所有的数据对象
  */
 export const _$: object;
@@ -123,4 +138,6 @@ export default class Fine {
     static _$;
     /** 模块基类，需要继承使用 */
     static Module;
+    /** 绑定生命周期函数 */
+    static ComponentBind;
 }
