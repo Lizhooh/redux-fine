@@ -121,23 +121,23 @@ export function ComponentBind(name: string);
  */
 export const _$: object;
 
-export default class Fine {
-    /** 加载模块类 */
-    static module;
-    /** 返回一个创建后的 store 对象 */
-    static store;
-    /** 返回模块所有的 action 函数 */
-    static action;
-    /** 对 Module 注入属性，会被合并到 this 里 */
-    static mixin;
-    /** 对 Module 添加辅助实例方法 */
-    static helper;
-    /** 配置项 */
-    static config;
-    /** 获取所有的数据对象 */
-    static _$;
-    /** 模块基类，需要继承使用 */
-    static Module;
-    /** 绑定生命周期函数 */
-    static ComponentBind;
-}
+// export default class Fine {
+//     /** 加载模块类 */
+//     static module;
+//     /** 返回一个创建后的 store 对象 */
+//     static store;
+//     /** 返回模块所有的 action 函数 */
+//     static action;
+//     /** 对 Module 注入属性，会被合并到 this 里 */
+//     static mixin;
+//     /** 对 Module 添加辅助实例方法 */
+//     static helper;
+//     /** 配置项 */
+//     static config;
+//     /** 获取所有的数据对象 */
+//     static _$;
+//     /** 模块基类，需要继承使用 */
+//     static Module;
+//     /** 绑定生命周期函数 */
+//     static ComponentBind;
+// }
