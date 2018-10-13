@@ -161,7 +161,7 @@ class _Module {
         // (cb: function)
         if (arg.length === 1 && isFunction(arg[0])) {
             res = $.store.dispatch({
-                type: `${this._name}-${now}`,
+                type: `${this._name}-${_now}`,
                 newState: state => arg[0](state) || state,
             });
         }
@@ -176,7 +176,7 @@ class _Module {
             // (cb: function, cb: function)
             else {
                 res = $.store.dispatch({
-                    type: `${this._name}-${now}`,
+                    type: `${this._name}-${_now}`,
                     newState: state => arg[0](state) || state,
                 });
                 setTimeout(() => {
