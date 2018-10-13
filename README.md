@@ -6,6 +6,8 @@ Redux-based upper-level encapsulation, data state management library, the main p
 基于 Redux 的上层封装，数据状态管理库，主要目的是为了简化 Redux 的编写代码。
 [中文文档 - 点这里](./ZH.md)
 
+<hr />
+
 ### Features and constraints
 - There is no need to write `Reducer`, this part will be built automatically when the framework is initialized.
 - No need to write `action.type`, everything is built in the process of automatic build.
@@ -90,6 +92,70 @@ export default class IndexModule extends Fine.Module {
 }
 ```
 
+### Lifecycle binding (v4.0+)
+Added the ability to bind lifecycles of React components in v4.0.
+
+For the sake of simplicity, make a mapping relationship:
+- componentDidCatch -> onDidCatch
+- componentWillMount -> onWillMount
+- componentDidMount -> onDidMount
+- componentWillReceiveProps -> onWillReceiveProps
+- componentWillUpdate -> onWillUpdate
+- componentDidUpdate -> onDidUpdate
+- componentWillUnmount -> onWillUnmount
+
+Use as follows:
+
+1. Bind your component.
+
+```js
+import Fine, { ComponentBind } from 'redux-fine';
+
+export default connect(
+    state => ({ state: state.index }),
+    Fine.action('index'),
+)(class IndexView extends ComponentBind('index') {
+    render() {
+        // ...
+    }
+}
+```
+
+2. Add a lifecycle to the Module.
+
+```js
+export default class IndexModule extends Fine.Module {
+
+    initState = {
+        name: 'index-view',
+        list: [],
+    }
+
+    onDidCatch(err, info) {
+        console.log('onDidCatch');
+    }
+    onWillMount() {
+        console.log('onWillMount');
+    }
+    onDidMount() {
+        console.log(this.state); // { name: 'index-view', list: [] }
+        console.log('onDidMount');
+    }
+    onWillReceiveProps(nextProps) {
+        console.log('onWillReceiveProps');
+    }
+    onWillUpdate(nextProps, nextState) {
+        console.log('onWillUpdate');
+    }
+    onDidUpdate(prevProps, prevState) {
+        console.log('onDidUpdate');
+    }
+    onWillUnmount() {
+        console.log('onWillUnmount');
+    }
+}
+```
+
 ### Precautions
 
 - this.state, this.store, this.app can't be used in constructors or commit callbacks, they are runtime properties.
@@ -100,13 +166,13 @@ export default class IndexModule extends Fine.Module {
 ```js
 class IndexModule extends Fine.Module {
     getList1() {
-        // 不是 action
+        // not action
     }
     _getList2() {
-        // 不是 action
+        // not action
     }
     getList3 = () => {
-        // 是 action
+        // is action
         return true;
     }
 }
@@ -116,7 +182,7 @@ Fine.module('index', IndexModule);
 console.log(Fine.action('index'));
 // { getList3: () => {} }
 console.log(Fine.action('index').getList3());
-// () => {}，返回值无效
+// () => {}，Invalid return value
 ```
 
 ### Example

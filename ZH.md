@@ -86,6 +86,70 @@ export default class IndexModule extends Fine.Module {
 }
 ```
 
+### 生命周期的绑定（v4.0+）
+在 v4.0 版本里添加了对 React 组件的生命周期绑定的功能。
+
+为了简便，做了一个映射关系：
+- componentDidCatch -> onDidCatch
+- componentWillMount -> onWillMount
+- componentDidMount -> onDidMount
+- componentWillReceiveProps -> onWillReceiveProps
+- componentWillUpdate -> onWillUpdate
+- componentDidUpdate -> onDidUpdate
+- componentWillUnmount -> onWillUnmount
+
+使用如下：
+
+1. 绑定你的组件。
+
+```js
+import Fine, { ComponentBind } from 'redux-fine';
+
+export default connect(
+    state => ({ state: state.index }),
+    Fine.action('index'),
+)(class IndexView extends ComponentBind('index') {
+    render() {
+        // ...
+    }
+}
+```
+
+2. 在 Module 里添加生命周期。
+
+```js
+export default class IndexModule extends Fine.Module {
+
+    initState = {
+        name: 'index-view',
+        list: [],
+    }
+
+    onDidCatch(err, info) {
+        console.log('onDidCatch');
+    }
+    onWillMount() {
+        console.log('onWillMount');
+    }
+    onDidMount() {
+        console.log(this.state); // { name: 'index-view', list: [] }
+        console.log('onDidMount');
+    }
+    onWillReceiveProps(nextProps) {
+        console.log('onWillReceiveProps');
+    }
+    onWillUpdate(nextProps, nextState) {
+        console.log('onWillUpdate');
+    }
+    onDidUpdate(prevProps, prevState) {
+        console.log('onDidUpdate');
+    }
+    onWillUnmount() {
+        console.log('onWillUnmount');
+    }
+}
+```
+
 ### 注意事项
 
 - this.state、this.store、this.app 都不能在构造函数或 commit 回调函数里使用，它们是运行时的属性。
@@ -158,4 +222,3 @@ name 是 module 的名称。返回指定 module 的 action 函数。
     - `commit(name: string, cb: (state) => {});` - 如果第一个参数为字符串，则是为 action type 提供额外的名称。
     - `commit(name: string, cb1: (state) => {}, cb2: (newState) => {});` - 以上方式的综合函数。
 - `commitAssign(newState)` -
-
