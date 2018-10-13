@@ -5725,6 +5725,15 @@ redux-fine@^3.2.5:
     redux-store-init "^2.0.0"
     redux-thunk "^2.3.0"
 
+redux-fine@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/redux-fine/-/redux-fine-4.1.1.tgz#6dd29dd6345e3e473007f4555619959ce1527ae1"
+  dependencies:
+    redux "^4.0.0"
+    redux-fine "^3.2.5"
+    redux-store-init "^2.0.0"
+    redux-thunk "^2.3.0"
+
 redux-store-init@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/redux-store-init/download/redux-store-init-2.0.0.tgz#21d49e927f6d4b665287da440eda858b6609fcb6"
