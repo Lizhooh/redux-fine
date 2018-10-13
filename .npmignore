@@ -5,3 +5,4 @@ image/
 *.log
 example/
 .lock
+__test__
