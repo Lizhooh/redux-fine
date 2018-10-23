@@ -1,16 +1,8 @@
 {
   "name": "redux-fine",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "redux-fine is a simple redux library.",
   "main": "index.js",
-  "scripts": {
-    "test": "jest __test__/*"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    }
-  },
   "dependencies": {
     "redux": "^4.0.0",
     "redux-fine": "^3.2.5",
@@ -28,13 +20,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Lizhooh/redux-fine"
-  },
-  "devDependencies": {
-    "babel-jest": "^23.6.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "jest": "^23.6.0",
-    "react": "^16.5.2"
   }
 }
