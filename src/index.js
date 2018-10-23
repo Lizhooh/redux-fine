@@ -99,6 +99,10 @@ const _action = (name) => {
     const obj = {};
     let list = Object.keys($.module[name] || {});
 
+    if ($.action[name] !== undefined && Object.keys($.action[name]).length > 0) {
+        return $.action[name];
+    }
+
     const pt = Object.getPrototypeOf($.module[name]);
     list = list.concat(Object.getOwnPropertyNames(pt));
 
@@ -114,6 +118,8 @@ const _action = (name) => {
             };
         }
     });
+
+    $.action[name] = obj;
 
     return obj;
 }
@@ -137,8 +143,7 @@ class _Module {
     }
 
     get store() {
-        try { return $.store.getState(); }
-        catch (err) { console.error(ErrorMap.CTX) }
+        return $.store.getState();
     }
     get state() {
         return this.store[this._name];
