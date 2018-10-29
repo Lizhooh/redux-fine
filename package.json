@@ -1,6 +1,6 @@
 {
   "name": "redux-fine",
-  "version": "4.2.1",
+  "version": "4.5.0",
   "description": "redux-fine is a simple redux library.",
   "main": "index.js",
   "dependencies": {

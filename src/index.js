@@ -62,7 +62,7 @@ const _module = (name, module) => {
         $.initState[name] = m.initState;
         $.reducer[name] = (state = $.initState[name], action) => {
             const { type, newState } = action;
-            if (type.indexOf(name) > -1 && isFunction(newState)) {
+            if (type === name && isFunction(newState)) {
                 return newState(state);
             }
             return state;
@@ -166,7 +166,7 @@ class _Module {
         // (cb: function)
         if (arg.length === 1 && isFunction(arg[0])) {
             res = $.store.dispatch({
-                type: `${this._name}-${_now}`,
+                type: `${this._name}`,
                 newState: state => arg[0](state) || state,
             });
         }
@@ -174,14 +174,14 @@ class _Module {
             // (name: string, cb: function)
             if (isString(arg[0])) {
                 res = $.store.dispatch({
-                    type: `${this._name}-${arg[0]}`,
+                    type: `${arg[0]}`,
                     newState: state => arg[1](state) || state,
                 });
             }
             // (cb: function, cb: function)
             else {
                 res = $.store.dispatch({
-                    type: `${this._name}-${_now}`,
+                    type: `${this._name}`,
                     newState: state => arg[0](state) || state,
                 });
                 setTimeout(() => {
@@ -192,7 +192,7 @@ class _Module {
         else if (arg.length === 3 && isFunction(arg[1])) {
             // (name: string, cb: function, cb: function)
             res = $.store.dispatch({
-                type: `${this._name}-${arg[0]}`,
+                type: `${arg[0]}`,
                 newState: state => arg[1](state) || state,
             });
             if (isFunction(arg[2])) {
