@@ -33,7 +33,7 @@ export class Module {
      * @params{Function}: cb1 - 执行函数
      * @params{Function}: cb2 - 新状态改变后回调
      */
-    commit(cb1: (state?: any) => any, cb2: (newState?: any) => any);
+    commit(cb1: (state?: any) => any, cb2?: (newState?: any) => any);
     /**
      * 提交一个数据改变请求
      * @params{String}: name - 模块名称
@@ -46,14 +46,14 @@ export class Module {
      * @params{Function}: cb1 - 执行函数
      * @params{Function}: cb2 - 新状态改变后回调
      */
-    commit(name: string, cb1: (state?: any) => any, cb2: (newState?: any) => any);
+    commit(name: string, cb1: (state?: any) => any, cb2?: (newState?: any) => any);
 
     /**
      * 提交一个数据改变请求，参数数据会被合并到 state 里。
      * @params{Object}: newState - 新的状态
      */
     commitAssign(updateState: any);
-    commitAssign(updateState: any, cb: (state?: any) => any);
+    commitAssign(updateState: any, cb?: (state?: any) => any);
 
     /* 应用的上下文 */
     app: IApp;
@@ -62,12 +62,12 @@ export class Module {
     [index: number]: any;
 
     /** 生命周期函数绑定 */
-    onDidCatch(err: Error, info: React.ErrorInfo, self?: React.ReactElement<any>);
+    onDidCatch(err?: Error, info?: React.ErrorInfo, self?: React.ReactElement<any>);
     onDidMount(self?: React.ReactElement<any>);
     onWillMount(self?: React.ReactElement<any>);
-    onWillReceiveProps(nextProps: any, self?: React.ReactElement<any>);
-    onDidUpdate(prevProps: any, prevState: any, self?: React.ReactElement<any>);
-    onWillUpdate(nextProps: any, nextState: any, self?: React.ReactElement<any>);
+    onWillReceiveProps(nextProps?: any, self?: React.ReactElement<any>);
+    onDidUpdate(prevProps?: any, prevState?: any, self?: React.ReactElement<any>);
+    onWillUpdate(nextProps?: any, nextState?: any, self?: React.ReactElement<any>);
     onWillUnmount(self?: React.ReactElement<any>);
 }
 
@@ -85,12 +85,12 @@ interface Opts {
 /**
  * 加载模块类
  */
-export function module(name: string, module: any): object | any;
+export function module(name: string, module?: any): object | any;
 
 /**
  * 返回一个创建后的 store 对象
  */
-export function store(initState: any, middlewares: [any]): object | any;
+export function store(initState?: any, middlewares?: [any]): object | any;
 
 /**
  * 返回模块所有的 action 函数

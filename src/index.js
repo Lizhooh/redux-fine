@@ -62,7 +62,7 @@ const _module = (name, module) => {
         $.initState[name] = m.initState;
         $.reducer[name] = (state = $.initState[name], action) => {
             const { type, newState } = action;
-            if (type.indexOf(name) > -1 && isFunction(newState)) {
+            if (type === name && isFunction(newState)) {
                 return newState(state);
             }
             return state;
@@ -99,6 +99,10 @@ const _action = (name) => {
     const obj = {};
     let list = Object.keys($.module[name] || {});
 
+    if ($.action[name] !== undefined && Object.keys($.action[name]).length > 0) {
+        return $.action[name];
+    }
+
     const pt = Object.getPrototypeOf($.module[name]);
     list = list.concat(Object.getOwnPropertyNames(pt));
 
@@ -114,6 +118,8 @@ const _action = (name) => {
             };
         }
     });
+
+    $.action[name] = obj;
 
     return obj;
 }
@@ -137,8 +143,7 @@ class _Module {
     }
 
     get store() {
-        try { return $.store.getState(); }
-        catch (err) { console.error(ErrorMap.CTX) }
+        return $.store.getState();
     }
     get state() {
         return this.store[this._name];
@@ -161,7 +166,7 @@ class _Module {
         // (cb: function)
         if (arg.length === 1 && isFunction(arg[0])) {
             res = $.store.dispatch({
-                type: `${this._name}-${_now}`,
+                type: `${this._name}`,
                 newState: state => arg[0](state) || state,
             });
         }
@@ -169,14 +174,14 @@ class _Module {
             // (name: string, cb: function)
             if (isString(arg[0])) {
                 res = $.store.dispatch({
-                    type: `${this._name}-${arg[0]}`,
+                    type: `${arg[0]}`,
                     newState: state => arg[1](state) || state,
                 });
             }
             // (cb: function, cb: function)
             else {
                 res = $.store.dispatch({
-                    type: `${this._name}-${_now}`,
+                    type: `${this._name}`,
                     newState: state => arg[0](state) || state,
                 });
                 setTimeout(() => {
@@ -187,7 +192,7 @@ class _Module {
         else if (arg.length === 3 && isFunction(arg[1])) {
             // (name: string, cb: function, cb: function)
             res = $.store.dispatch({
-                type: `${this._name}-${arg[0]}`,
+                type: `${arg[0]}`,
                 newState: state => arg[1](state) || state,
             });
             if (isFunction(arg[2])) {
