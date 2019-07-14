@@ -2,9 +2,10 @@
 ## Redux-Fine
 Redux-based upper-level encapsulation, data state management library, the main purpose is to simplify the writing of Redux code.
 
-
 基于 Redux 的上层封装，数据状态管理库，主要目的是为了简化 Redux 的编写代码。
-[中文文档 - 点这里](./ZH.md)
+
+**注意：此库已不维护。**
+**Warning: This library is not maintained.**
 
 <hr />
 

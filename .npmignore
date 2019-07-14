@@ -6,3 +6,6 @@ image/
 example/
 .lock
 __test__
+__doc
+coverage/
+example/
